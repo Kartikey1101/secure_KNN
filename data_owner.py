@@ -9,15 +9,12 @@ def generate_m_temp(eta, q_max, max_norm):
         matrix = np.random.rand(eta, eta)
         
         # Adjust diagonal elements to be greater than p
-        np.fill_diagonal(matrix, np.random.randint(max_norm, max_norm+100, size=eta))
+        np.fill_diagonal(matrix, np.random.randint(max_norm+100, max_norm+500, size=eta))
         
         # Adjust non-diagonal elements to be greater than q
         mask = np.eye(eta, dtype=bool)  # Mask to exclude diagonal elements
-        matrix[~mask] = np.random.randint(q_max, q_max+100, size=eta*eta-eta)
-        
-        if np.linalg.det(matrix) != 0:
-            break
-        
+        matrix[~mask] = np.random.randint(q_max+100, q_max+500, size=eta*eta-eta)
+        break
     return matrix
 
 
@@ -29,7 +26,7 @@ def get_max_norm(matrix):
 def generate_and_save_secrets(eta, c, d):
     
     while True:
-        m_base = np.random.randint(0, 100, size=(eta, eta))
+        m_base = np.random.randint(1, 100, size=(eta, eta))
         if np.linalg.det(m_base) != 0:
             break
         
@@ -58,15 +55,15 @@ def encrypt_original_data_user_cloud(original_data, sec_vector, m_base_inv, w_ve
         # print(encrypted_pi)
         
         # Step 3: Adding extra columns to pi
-        square_root_avg = np.linalg.norm(pi[:d]**2)
         
-        pi_dplus1 = sec_vector[d] + square_root_avg
+        
+        pi_dplus1 = sec_vector[d] + np.linalg.norm(pi[:d])**2
         
         extra_cols = np.concatenate((encrypted_pi, [pi_dplus1]))
         
         
         # Step 4: Adding w_vector and a random z_vector
-        z_vector = np.random.randint(0, 100, size=ep)
+        z_vector = np.random.randint(0, 10, size=ep)
         # print(z_vector)
         final_pi = np.concatenate((extra_cols, w_vector))
         final_pi = np.concatenate((final_pi, z_vector))
@@ -96,7 +93,7 @@ max_norm = get_max_norm(orignal_data);
 n , d = orignal_data.shape
 
 # public paramaters
-c = 5
+c = 2
 
 ep = 3
 
@@ -132,13 +129,13 @@ if os.path.exists('data_user/enc_query_1.csv'):
     #generate the m_temp
     m_temp = generate_m_temp(eta, q_max, max_norm)
 
-    q_dash = np.concatenate((enc_q,[1], np.random.randint(0,10,size=c), np.zeros(ep)))
+    q_dash = np.concatenate((enc_q,[1], np.random.randint(1,10,size=c), np.zeros(ep)))
 
     q_eta = np.diag(q_dash)
 
     m_sec = np.dot(m_temp, m_base)
     beta_2 = np.random.rand()
-    err = np.random.randint(q_max, q_max+100, size=(eta,eta))
+    err = np.random.randint(q_max, q_max+10, size=(eta,eta))
 
     q_enc_final = beta_2 * (np.dot(m_sec, q_eta) + err)
     
@@ -147,9 +144,3 @@ if os.path.exists('data_user/enc_query_1.csv'):
     np.savetxt('data_user/err.csv', err, delimiter=',')
     np.savetxt('query_user/enc_query_2.csv', q_enc_final, delimiter=',') # Used by Query User
     
-
-
-
-
-
-

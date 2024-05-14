@@ -54,7 +54,7 @@ def check_implementation(enc_data, q):
 
 
 # k-NN implementation
-def our_knn(enc_data, enc_query, k=3):
+def our_knn(enc_data, enc_query, k=10):
     distance_vec = np.abs(np.dot(enc_data, enc_query))
     return  np.round(np.argsort(distance_vec)[:k])
 

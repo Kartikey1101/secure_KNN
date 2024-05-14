@@ -17,7 +17,9 @@ names = [
     'query_user/enc_query_2.csv',
     'query_user/query_og.csv',
     'query_user/beta_1.txt',
-    'query_user/knnResult.csv'
+    'data_val/knn_og.csv',
+    'query_user/knnResult.csv',
+    'data_user/decrypted_data_cloud.csv'
 ]
 
 for i in names:

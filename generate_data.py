@@ -1,7 +1,7 @@
 import numpy as np 
 
-n = 10
-d = 8
+n = 1000
+d = 100
 c = 5
 ep = 3
 eta = d + 1 + c + ep

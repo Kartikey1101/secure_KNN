@@ -44,7 +44,7 @@ else:
 
     beta_1 = [np.random.randint(1, 10)]
 
-    for _ in range(d): N[_][_] = np.random.randint(1, 10)
+    for _ in range(d): N[_][_] = np.random.randint(100, 1000)
 
     enc_q = np.dot(q_0 , beta_1 * N) # this enc_q is sent to the data owner
     

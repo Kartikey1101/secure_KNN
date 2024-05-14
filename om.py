@@ -7,7 +7,10 @@ execution_order = [
     'query_u.py',
     'data_owner.py',
     'query_u.py',  # This duplicates query_u.py as per your original order
-    'cloud_server.py'
+    'cloud_server.py',
+    'compute_KNN_org.py',
+    'data_decrypt_from_cloud.py',
+    'data_vali.py'
 ]
 
 # Function to execute scripts in the specified order
